@@ -475,6 +475,7 @@ class GrantAdmin(ExportMixin, ConferencePermissionMixin, admin.ModelAdmin):
         "conference",
         "current_or_pending_status",
         "total_amount_display",
+        "approved_amounts_display",
         "country_type",
         "user_has_ticket",
         "has_voucher",
@@ -680,14 +681,16 @@ class GrantAdmin(ExportMixin, ConferencePermissionMixin, admin.ModelAdmin):
         return ""
 
     @admin.display(description="Total")
-    def total_amount_display(self, obj):
-        return f"{obj.total_allocated_amount:.2f}"
+    def total_amount_display(self, obj: Grant) -> str:
+        return f"{obj.total_allocated_amount:.0f}"
 
-    @admin.display(description="Approved Reimbursements")
-    def approved_amounts_display(self, obj):
-        return ", ".join(
-            f"{r.category.name}: {r.granted_amount}" for r in obj.reimbursements.all()
+    @admin.display(description="Included reimbursements")
+    def approved_amounts_display(self, obj: Grant) -> str:
+        text = ", ".join(
+            f"{r.category.name}: {r.granted_amount:.0f}"
+            for r in obj.reimbursements.all()
         )
+        return text or "—"
 
     def get_queryset(self, request):
         qs = (
