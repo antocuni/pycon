@@ -372,7 +372,7 @@ export const Badge = ({
                 width: "113px",
                 height: "34px",
               }}
-              src="https://cdn.pycon.it/conferences/pycon2025/pycon-italia-2025-logo.png"
+              src="https://cdn.pycon.it/conferences/pycon2026/pycon-italia-2026-logo.png"
             />
           </div>
         </div>
